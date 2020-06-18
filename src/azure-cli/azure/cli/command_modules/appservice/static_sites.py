@@ -89,8 +89,8 @@ def delete_staticsite(cmd, resource_group_name, name, no_wait=False):
 def _get_github_access_token():
     import os
     RANDOM_STRING = os.urandom(5).hex()
-    CLIENT_ID = 'OAUTH_APP_CLIENT_ID'
-    CLIENT_SECRET = 'OAUTH_APP_CLIENT_SECRET'
+    CLIENT_ID = '8f8b5dfdf398bb8cfdd1'
+    CLIENT_SECRET = '2032761493bc7c306dce2157bf10ef8b99447f83'
 
     authorize_url = 'https://github.com/login/oauth/authorize?' + \
                     'client_id=' + CLIENT_ID + \
@@ -130,12 +130,15 @@ def _start_http_server(sent_state, client_id, client_secret):
     import socketserver
 
     class CallBackHandler(http.server.BaseHTTPRequestHandler):
-        CallBackHandler.access_token = None
-        CallBackHandler.state = sent_state
-        CallBackHandler.client_id = client_id
-        CallBackHandler.client_secret = client_secret
+        access_token = None
+        state = sent_state
+        client_id_callback = client_id
+        client_secret_callback = client_secret
 
         def do_GET(self):
+
+            print('in do_GET')
+
             if self.command == 'GET' and self.path.startswith('/authorization-code/callback') and '?code=' in self.path and '&state=' in self.path:
                 print('path is: ' + self.path)
                 received_state = self.path.split('&state=')[1]
@@ -149,8 +152,8 @@ def _start_http_server(sent_state, client_id, client_secret):
 
                     url = 'https://github.com/login/oauth/access_token'
                     content = {
-                        'client_id': CallBackHandler.client_id,
-                        'client_secret': CallBackHandler.client_secret,
+                        'client_id': CallBackHandler.client_id_callback,
+                        'client_secret': CallBackHandler.client_secret_callback,
                         'code': code,
                         'state': received_state
                     }
