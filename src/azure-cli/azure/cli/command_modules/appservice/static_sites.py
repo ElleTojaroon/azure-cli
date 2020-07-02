@@ -89,8 +89,8 @@ def delete_staticsite(cmd, resource_group_name, name, no_wait=False):
 def _get_github_access_token():
     import os
     RANDOM_STRING = os.urandom(5).hex()
-    CLIENT_ID = '8f8b5dfdf398bb8cfdd1'
-    CLIENT_SECRET = '2032761493bc7c306dce2157bf10ef8b99447f83'
+    CLIENT_ID = 'CLIENT ID'
+    CLIENT_SECRET = 'CLIENT SECRET'
 
     authorize_url = 'https://github.com/login/oauth/authorize?' + \
                     'client_id=' + CLIENT_ID + \
